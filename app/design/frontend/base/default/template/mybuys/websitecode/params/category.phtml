@@ -1,0 +1,25 @@
+<?php if (Mage::getStoreConfig('mybuys_websitecode/general/website_code') == 'enabled') : ?>
+    <?php $collection = $this->getLoadedProductCollection(); ?>
+    <?php $catId = Mage::getSingleton('catalog/layer')->getCurrentCategory()->getId(); ?>
+    <?php $catLevel = Mage::registry('current_category')->getLevel(); ?>
+    <?php $catTitle = ($catLevel <= 2) ? "HIGH_LEVEL_CATEGORY" : "CATEGORY"; ?>
+    <?php $zoneEnabled = ($catLevel <= 2) ?
+        Mage::getStoreConfig('mybuys_websitecode/recommendation/cat_high') :
+        Mage::getStoreConfig('mybuys_websitecode/recommendation/cat_leaf'); ?>
+
+    <script type="text/javascript">
+        mybuys.setPageType("<?php echo $catTitle?>");
+        mybuys.set("categoryid", "<?php echo $catId; ?>");
+    </script>
+
+    <?php if (Mage::getStoreConfig('mybuys_websitecode/recommendation/recommendation') && $zoneEnabled && count($collection) > 0) : ?>
+        <script type="text/javascript">
+            <?php
+            foreach ($collection as $product)
+            {
+                echo  'mybuys.addItemPresentOnPage("'.$product->getId().'");';
+            }
+            ?>
+        </script>
+    <?php endif; ?>
+<?php endif; ?>

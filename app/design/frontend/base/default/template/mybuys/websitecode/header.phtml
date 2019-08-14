@@ -1,11 +1,11 @@
 <?php if (Mage::getStoreConfig('mybuys_websitecode/general/website_code') == 'enabled') : ?>
-<?php if (Mage::app()->getStore()->isCurrentlySecure()) : ?>
-   <link href="https://t.p.mybuys.com/css/mbstyles.css" type="text/css" rel="stylesheet" id="mybuysstyles" />
-   <script type="text/javascript" src="https://t.p.mybuys.com/js/mybuys3.js"></script>
-   <script type="text/javascript" src="https://t.p.mybuys.com/clients/<?php echo Mage::getStoreConfig('mybuys_websitecode/general/identifier'); ?>/js/setup.js"></script>
-<?php else : ?>
-   <link href="http://t.p.mybuys.com/css/mbstyles.css" type="text/css" rel="stylesheet" id="mybuysstyles" />
-   <script type="text/javascript" src="http://t.p.mybuys.com/js/mybuys3.js"></script>
-   <script type="text/javascript" src="http://t.p.mybuys.com/clients/<?php echo Mage::getStoreConfig('mybuys_websitecode/general/identifier'); ?>/js/setup.js"></script>
-<?php endif; ?>
+    <?php if (Mage::app()->getStore()->isCurrentlySecure()) : ?>
+        <link href="https://t.p.mybuys.com/clients/<?php echo Mage::getStoreConfig('mybuys_websitecode/general/identifier'); ?>/css/styles.css" type="text/css" rel="stylesheet" id="mybuysstyles" />
+        <script type="text/javascript" src="https://t.p.mybuys.com/js/mybuys4.js"></script>
+        <script type="text/javascript" src="https://t.p.mybuys.com/clients/<?php echo Mage::getStoreConfig('mybuys_websitecode/general/identifier'); ?>/js/setup.js"></script>
+    <?php else : ?>
+        <link href="https://t.p.mybuys.com/clients/<?php echo Mage::getStoreConfig('mybuys_websitecode/general/identifier'); ?>/css/styles.css" type="text/css" rel="stylesheet" id="mybuysstyles" />
+        <script type="text/javascript" src="http://t.p.mybuys.com/js/mybuys4.js"></script>
+        <script type="text/javascript" src="http://t.p.mybuys.com/clients/<?php echo Mage::getStoreConfig('mybuys_websitecode/general/identifier'); ?>/js/setup.js"></script>
+    <?php endif; ?>
 <?php endif; ?>

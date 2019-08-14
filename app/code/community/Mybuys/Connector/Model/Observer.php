@@ -20,41 +20,41 @@ class Mybuys_Connector_Model_Observer
     {
 		try {
             // Log
-            Mage::log('**********************************************************', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log('Data feeds cron process started...', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log('Is Single Store Mode: ' . Mage::app()->isSingleStoreMode(), Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log('Memory usage: ' . memory_get_usage(), Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log('**********************************************************', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('**********************************************************', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Data feeds cron process started...', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Is Single Store Mode: ' . Mage::app()->isSingleStoreMode(), Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Memory usage: ' . memory_get_usage(), Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('**********************************************************', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
                         
             // Cleanup queue
             $this->cleanupJobQueue();
 
 			// Log mem usage
-            Mage::log('Memory usage: ' . memory_get_usage(), Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Memory usage: ' . memory_get_usage(), Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
 
             // Schedule daily feed jobs for all websites
             $this->scheduleJobs();
 
 			// Log mem usage
-            Mage::log('Memory usage: ' . memory_get_usage(), Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Memory usage: ' . memory_get_usage(), Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
 
             // Run 1 job
             $this->runJob();
 
             // Log
-            Mage::log('**********************************************************', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log('Daily feeds cron process completed successfully.', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log('Memory usage: ' . memory_get_usage(), Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log('**********************************************************', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('**********************************************************', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Daily feeds cron process completed successfully.', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Memory usage: ' . memory_get_usage(), Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('**********************************************************', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
 		}
 		catch(Exception $e) {
             // Log exception
             Mage::logException($e);
-            Mage::log('**********************************************************', Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log('Data feeds cron process failed with error:', Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log('Memory usage: ' . memory_get_usage(), Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log('**********************************************************', Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('**********************************************************', Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Data feeds cron process failed with error:', Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Memory usage: ' . memory_get_usage(), Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('**********************************************************', Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
 		}        
         
         return $this;
@@ -73,8 +73,8 @@ class Mybuys_Connector_Model_Observer
     	catch(Exception $e) {
             // Log exception
             Mage::logException($e);
-            Mage::log('Failed to cleaup job queue, error:', Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Failed to cleaup job queue, error:', Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
             throw $e;
     	}
     }
@@ -92,8 +92,8 @@ class Mybuys_Connector_Model_Observer
     	catch(Exception $e) {
             // Log exception
             Mage::logException($e);
-            Mage::log('Failed to schedule daily jobs, error:', Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Failed to schedule daily jobs, error:', Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
             throw $e;
     	}
     }
@@ -114,8 +114,8 @@ class Mybuys_Connector_Model_Observer
     	catch(Exception $e) {
             // Log exception
             Mage::logException($e);
-            Mage::log('Failed to run job, error:', Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Failed to run job, error:', Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
             throw $e;
     	}
     }

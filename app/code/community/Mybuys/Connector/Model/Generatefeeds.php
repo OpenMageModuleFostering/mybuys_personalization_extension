@@ -49,7 +49,7 @@ class Mybuys_Connector_Model_Generatefeeds
     public function generateForWebsite($websiteId, $bBaselineFile, $feedType, &$minEntityId, &$bDone)
 	{
 		// Log mem usage
-        Mage::log('Memory usage: ' . memory_get_usage(), Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
+        Mage::helper('mybuys')->log('Memory usage: ' . memory_get_usage(), Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
         
 		// Check data feeds enabled
 		// Check feed of this type if config is enabled

@@ -16,7 +16,6 @@ class Mybuys_Connector_Model_Feed_Email_Optout extends Mybuys_Connector_Model_Fe
 	{
 		return array(
 			'subscriber_email' => 'Email Address',
-			'change_status_at' => 'Opt-Out Date',
 			);
 	}
 
@@ -31,7 +30,7 @@ class Mybuys_Connector_Model_Feed_Email_Optout extends Mybuys_Connector_Model_Fe
 	 *
 	 * @param int|string $websiteId Which website to query for collection
 	 */
-	public function getCollection($websiteId)
+	public function getFeedCollection($websiteId)
 	{
 		// Create collection
 		$collection = Mage::getResourceModel('newsletter/subscriber_collection');

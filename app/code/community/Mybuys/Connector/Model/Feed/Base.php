@@ -39,7 +39,7 @@ class Mybuys_Connector_Model_Feed_Base extends Mage_Core_Model_Abstract
     }
 
     // Feed file name key
-    // This must be overridde by derived classes
+    // This must be overridden by derived classes
     public function getFileNameKey()
     {
         return '';
@@ -88,7 +88,7 @@ class Mybuys_Connector_Model_Feed_Base extends Mage_Core_Model_Abstract
     protected function addCustomAttributes($collection, $customAttribs, &$fieldMap)
     {
         // Log
-        Mage::log("Adding custom attributes include in query: {$customAttribs}", Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+        Mage::helper('mybuys')->log("Adding custom attributes include in query: {$customAttribs}", Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
         // Check if we have any custom attribs
         if (strlen(trim($customAttribs)) > 0) {
             // Iterate custom attribs
@@ -103,12 +103,12 @@ class Mybuys_Connector_Model_Feed_Base extends Mage_Core_Model_Abstract
                      Mage::throwException("Attribte not found: {$curAttrib}");
                  }
                  // Log
-                 Mage::log("Adding attribute to query: {$curAttrib}", Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
+                 Mage::helper('mybuys')->log("Adding attribute to query: {$curAttrib}", Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
 
                  if ($_attribute->getFrontendInput()=="select" || $_attribute->getFrontendInput()=="multiselect") {
                          // attribute is a select of multi-select input and attribute id to value translation is needed
                          // Log
-                     Mage::log("Note - Attribute needs translation", Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
+                     Mage::helper('mybuys')->log("Note - Attribute needs translation", Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
                      $this->_optionValueMap['custom_' . $curAttrib]=true;
                  }
                  // Add attribute to select
@@ -137,11 +137,11 @@ class Mybuys_Connector_Model_Feed_Base extends Mage_Core_Model_Abstract
     public function generate($websiteId, $exportPath, $bBaselineFile, $throttle, &$minEntityId, &$bDone)
     {
         // Log
-        Mage::log('Generating ' . $this->getFileNameKey() . ' data feed for website with Id: ' . $websiteId, Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
-        Mage::log("Export path: {$exportPath}", Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
-        Mage::log("Baseline feed: {$bBaselineFile}", Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
-        Mage::log("Throttle: {$throttle}", Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
-        Mage::log("Min entity_id: {$minEntityId}", Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+        Mage::helper('mybuys')->log('Generating ' . $this->getFileNameKey() . ' data feed for website with Id: ' . $websiteId, Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+        Mage::helper('mybuys')->log("Export path: {$exportPath}", Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+        Mage::helper('mybuys')->log("Baseline feed: {$bBaselineFile}", Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+        Mage::helper('mybuys')->log("Throttle: {$throttle}", Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+        Mage::helper('mybuys')->log("Min entity_id: {$minEntityId}", Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
 
         // initialize done flag
         $bDone = false;
@@ -164,7 +164,7 @@ class Mybuys_Connector_Model_Feed_Base extends Mage_Core_Model_Abstract
             // Generating baseline file, use simple file name
             $filename = $exportPath . DS . $this->getFileNameKey() . '-websiteid-' . $websiteId . '-' . $websitecode . '-' . 'baseline.tsv';
         }
-        Mage::log("Output Filenane: {$filename}", Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+        Mage::helper('mybuys')->log("Output Filenane: {$filename}", Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
 
         // build collection
         $collection = $this->getFeedCollection($websiteId);
@@ -178,9 +178,6 @@ class Mybuys_Connector_Model_Feed_Base extends Mage_Core_Model_Abstract
         if (!$bBaselineFile) {
             $collection = $this->addIncrementalFilter($collection, $incrementalDate);
         }
-
-        //Mage::log(ucfirst($this->getFileNameKey()) . " feed query", Zend_Log::INFO, "mybuys_query.log");
-        //Mage::log($collection->getSelect()->__toString(), Zend_Log::INFO, "mybuys_query.log");
 
         // Get column headers from field map provided by derived class
         $headerColumns = array_values($this->getFieldMap());
@@ -199,13 +196,13 @@ class Mybuys_Connector_Model_Feed_Base extends Mage_Core_Model_Abstract
 
         // Check success opening file
         if (!$bSuccess) {
-            Mage::log('Failed to open data feed file:' . $filename, Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Failed to open data feed file:' . $filename, Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
             return false;
         }
 
 
         //get all the attribute values for this website
-        Mage::log('Initializing attribute values', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+        Mage::helper('mybuys')->log('Initializing attribute values', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
         $this->_initAttributeSets();
 
         // Iterate data rows and output to file
@@ -214,26 +211,34 @@ class Mybuys_Connector_Model_Feed_Base extends Mage_Core_Model_Abstract
             // Put data into assoc array by column headers
             $curRowData = $curRow->getData();
             $rowValues = array();
-            
+
             foreach ($this->getFieldMap() as $mapKey => $mapValue) {
-                //if the attribute is a select or multiselect then we need to translate the 
+                //if the attribute is a select or multiselect then we need to translate the
                 // option id value into the display value
-                if ($this->_optionValueMap[$mapKey]) {
+                if (array_key_exists ($mapKey, $this->_optionValueMap)) {
                     $items = explode(",",$curRowData[$mapKey]);
                     $attrList=array();
                     foreach ($items as $item) {
-                        $attrList[]= $this->_attrSetIdToName[$item];
+                        if (array_key_exists($item,$this->_attrSetIdToName )) {
+                            $attrList[]=$this->_attrSetIdToName[$item];
+                        } else {
+                            $attrList[]="";
+                        }
                     }
                     $rowValues[$mapValue] = implode(",", $attrList);
                 } else {
-                    $rowValues[$mapValue] = $curRowData[$mapKey];
+                    if (array_key_exists($mapKey,$curRowData )) {
+                        $rowValues[$mapValue] = $curRowData[$mapKey];
+                    } else {
+                        $rowValues[$mapValue] ="";
+                    }
                 }
             }
 
             // Output this row
             $bSuccess = $file->writeRow($rowValues);
             if (!$bSuccess) {
-                Mage::log('Failed to write to data feed file: ' . $filename, Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+                Mage::helper('mybuys')->log('Failed to write to data feed file: ' . $filename, Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
                 $file->close();
                 return false;
             }
@@ -251,10 +256,9 @@ class Mybuys_Connector_Model_Feed_Base extends Mage_Core_Model_Abstract
         // Close file
         $bSuccess = $file->close();
         if (!$bSuccess) {
-            Mage::log('Failed to close data feed file: ' . $filename, Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Failed to close data feed file: ' . $filename, Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
             return false;
         }
     }
 
 }
-	 

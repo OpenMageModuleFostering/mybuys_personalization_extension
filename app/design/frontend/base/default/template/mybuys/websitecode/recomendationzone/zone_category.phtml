@@ -1,0 +1,16 @@
+<?php
+if ($this->zonesEnabled()) {
+    $catLevel = Mage::registry('current_category')->getLevel();
+    if (($catLevel <= 2 && $this->getZoneStatus('cat_high')) ||
+        ($catLevel > 2 && $this->getZoneStatus('cat_leaf'))
+    ) { //high level category and enabled
+        ?>
+        <div id="recommendation-zone-wrapper">
+            <!-- MyBuys Web Recommendation Zone -->
+            <div mybuyszone="1"></div>
+            <!-- End MyBuys Web Recommendation Zone -->
+        </div>
+    <?php
+    }
+}
+?>

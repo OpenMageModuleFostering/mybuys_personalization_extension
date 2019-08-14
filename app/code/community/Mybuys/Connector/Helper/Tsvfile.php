@@ -109,10 +109,13 @@ class Mybuys_Connector_Helper_Tsvfile extends Mage_Core_Helper_Abstract
 		{
 			// Filter and order rowValues based on column headers
 			$selectedRowValues = array();
-			foreach($this->_columnHeaders as $columnHeader) {
-				$selectedRowValues[] = $rowValues[$columnHeader];
-			}
-		
+            foreach($this->_columnHeaders as $columnHeader) {
+                if (array_key_exists($columnHeader, $rowValues)){
+                    $selectedRowValues[] = $rowValues[$columnHeader];
+                } else {
+                    $selectedRowValues[] = "";
+                }
+            }
 			// Convert values to utf8
 			$convertedRowValues = $this->encodeFields($selectedRowValues);
 			// Build row string with delimiters & termination

@@ -13,7 +13,7 @@
 
 	<modules>
 		<Mybuys_Connector>
-			<version>1.0.7</version>
+			<version>1.1.0</version>
 		</Mybuys_Connector>
 	</modules>
 
@@ -34,6 +34,11 @@
 				<class>Mybuys_Connector_Model</class>
 				<resourceModel>mybuys_mysql4</resourceModel>
 			</mybuys>
+			<core>
+				<rewrite>
+					<layout>Mybuys_Connector_Model_Layout</layout>
+				</rewrite>
+			</core>
 			<mybuys_mysql4>
 				<class>Mybuys_Connector_Model_Mysql4</class>
 				<entities>
@@ -166,6 +171,9 @@
 				<checkout>disabled</checkout>
 				<order_confirmation>disabled</order_confirmation>
 			</recommendation>
+            <notification>
+                <sendlog>none</sendlog>
+            </notification>
 		</mybuys_websitecode>
 	</default>
 </config>

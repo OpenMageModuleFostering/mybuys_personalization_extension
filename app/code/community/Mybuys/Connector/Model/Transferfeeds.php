@@ -22,8 +22,8 @@ class Mybuys_Connector_Model_Transferfeeds
 	{
 		try {
 			// Log
-           	Mage::log('Transferring data feeds for website with Id: ' . $websiteId, Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log('Memory usage: ' . memory_get_usage(), Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
+           	Mage::helper('mybuys')->log('Transferring data feeds for website with Id: ' . $websiteId, Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Memory usage: ' . memory_get_usage(), Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
             
 			// Check data feeds enabled
 			if(Mage::app()->getWebsite($websiteId)->getConfig('mybuys_datafeeds/general/allfeedsenabled') != 'enabled') {
@@ -37,11 +37,11 @@ class Mybuys_Connector_Model_Transferfeeds
                	Mage::throwException('Transfer file list failed!');
            	}
             	
-       	    Mage::log('Sucessfully transferred data feeds for website.', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+       	    Mage::helper('mybuys')->log('Sucessfully transferred data feeds for website.', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
 		}
 		catch(Exception $e) {
-       	    Mage::log('Failed to transfer data feeds for website.', Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
-           	Mage::log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+       	    Mage::helper('mybuys')->log('Failed to transfer data feeds for website.', Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+           	Mage::helper('mybuys')->log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
            	// Rethrow
            	throw $e;
 		}        
@@ -59,7 +59,7 @@ class Mybuys_Connector_Model_Transferfeeds
 		$feedPath = Mage::getConfig()->getVarDir() . DS . Mybuys_Connector_Model_Generatefeeds::MBUYS_FEED_PATH;
 		
 		// Log
-   	    Mage::log('Searching for feed files for website id: ' . $websiteId . ' here: ' . $feedPath, Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);		
+   	    Mage::helper('mybuys')->log('Searching for feed files for website id: ' . $websiteId . ' here: ' . $feedPath, Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);		
 		
 		// Create websiteid match string
 		$websiteIdMatchString = '-websiteid-' . $websiteId;
@@ -92,7 +92,7 @@ class Mybuys_Connector_Model_Transferfeeds
         closedir($dh);
 
 		// Log
-   	    Mage::log('Found ' . count($fileList) . ' feed files for website id: ' . $websiteId, Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);		
+   	    Mage::helper('mybuys')->log('Found ' . count($fileList) . ' feed files for website id: ' . $websiteId, Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);		
 		
 		return $fileList;
 	}
@@ -107,7 +107,7 @@ class Mybuys_Connector_Model_Transferfeeds
 	protected function transferFileList($websiteId, array $fileList)
 	{
 		// Log
-   	    Mage::log('Transferring ' . count($fileList) . ' files for website id: ' . $websiteId, Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);		
+   	    Mage::helper('mybuys')->log('Transferring ' . count($fileList) . ' files for website id: ' . $websiteId, Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);		
    	    
 		// Assemble SFTP crednetials
 		try {
@@ -123,7 +123,7 @@ class Mybuys_Connector_Model_Transferfeeds
 		{
 			// Log
 			Mage::logException($e);
-			Mage::log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+			Mage::helper('mybuys')->log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
 			return false;
 		}
 
@@ -134,7 +134,7 @@ class Mybuys_Connector_Model_Transferfeeds
 		/* @var $file Mybuys_Connector_Helper_SftpConnection */
 		$bSuccess = $connection->connect($sftpHost, $sftpPort, $sftpUser, $sftpPassword);
 		if(!$bSuccess) {
-       	    Mage::log('Failed to connect to MyBuys!', Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+       	    Mage::helper('mybuys')->log('Failed to connect to MyBuys!', Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
 			return false;
 		}
 		
@@ -142,7 +142,7 @@ class Mybuys_Connector_Model_Transferfeeds
 		$sftpFolder = self::SFTP_FOLDER;
 		$bSuccess = $connection->changeDir($sftpFolder);
 		if(!$bSuccess) {
-       	    Mage::log('Failed to change folders to: ' . $sftpFolder, Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+       	    Mage::helper('mybuys')->log('Failed to change folders to: ' . $sftpFolder, Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
 			return false;
 		}
 		
@@ -150,12 +150,12 @@ class Mybuys_Connector_Model_Transferfeeds
 		$bTransferSucceeded = true;
 		foreach($fileList as $curFile) {
 			// Log
-            Mage::log('Transferring file: ' . $curFile, Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log('Memory usage: ' . memory_get_usage(), Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Transferring file: ' . $curFile, Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Memory usage: ' . memory_get_usage(), Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
             // Transfer file
 			$bSuccess = $connection->putAndDeleteFile($curFile);
 			if(!$bSuccess) {
-	       	    Mage::log('Failed to transfer and delete file: ' . $curFile, Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+	       	    Mage::helper('mybuys')->log('Failed to transfer and delete file: ' . $curFile, Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
 				$bTransferSucceeded = false;
 			}
 		}
@@ -165,11 +165,11 @@ class Mybuys_Connector_Model_Transferfeeds
 		
 		// Check results
 		if(!$bTransferSucceeded) {
-       	    Mage::log('Some file transfers failed!', Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+       	    Mage::helper('mybuys')->log('Some file transfers failed!', Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
        	    return false;
 		}
 		else {
-   		    Mage::log('Successfully transferred all files.', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);		
+   		    Mage::helper('mybuys')->log('Successfully transferred all files.', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);		
 			return true;
 		}
 		

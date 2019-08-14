@@ -80,9 +80,9 @@ class Mybuys_Connector_Helper_SftpConnection extends Mage_Core_Helper_Abstract
 		{
 			// Log
 			Mage::logException($e);
-			Mage::log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+			Mage::helper('mybuys')->log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
             if ($this->_oConnection->getLastSFTPError())
-                Mage::log("SFTP reported error is ". $this->_oConnection->getLastSFTPError(), Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+                Mage::helper('mybuys')->log("SFTP reported error is ". $this->_oConnection->getLastSFTPError(), Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
 		}
 		return false;
 	}
@@ -109,7 +109,7 @@ class Mybuys_Connector_Helper_SftpConnection extends Mage_Core_Helper_Abstract
 		{
 			// Log
 			Mage::logException($e);
-			Mage::log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+			Mage::helper('mybuys')->log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
 		}
 
 		return false;
@@ -145,7 +145,7 @@ class Mybuys_Connector_Helper_SftpConnection extends Mage_Core_Helper_Abstract
         {
             // Log
             Mage::logException($e);
-            Mage::log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
         }
 
         return false;
@@ -172,7 +172,7 @@ class Mybuys_Connector_Helper_SftpConnection extends Mage_Core_Helper_Abstract
         {
             // Log
             Mage::logException($e);
-            Mage::log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
         }
 
         return false;
@@ -199,7 +199,7 @@ class Mybuys_Connector_Helper_SftpConnection extends Mage_Core_Helper_Abstract
         {
             // Log
             Mage::logException($e);
-            Mage::log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
         }
 
         return false;
@@ -227,7 +227,7 @@ class Mybuys_Connector_Helper_SftpConnection extends Mage_Core_Helper_Abstract
 			
 			// Check success and log errors
 			if(!$bSuccess) {
-				Mage::log('SFTP Error: ' . $this->_oConnection->getLastSFTPError(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+				Mage::helper('mybuys')->log('SFTP Error: ' . $this->_oConnection->getLastSFTPError(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
 			}
 			
 			// Return success
@@ -237,7 +237,7 @@ class Mybuys_Connector_Helper_SftpConnection extends Mage_Core_Helper_Abstract
 		{
 			// Log
 			Mage::logException($e);
-			Mage::log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+			Mage::helper('mybuys')->log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
 		}
 
 		return false;
@@ -263,7 +263,7 @@ class Mybuys_Connector_Helper_SftpConnection extends Mage_Core_Helper_Abstract
 		{
 			// Log
 			Mage::logException($e);
-			Mage::log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+			Mage::helper('mybuys')->log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
 		}
 
 		return false;

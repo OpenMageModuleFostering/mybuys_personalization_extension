@@ -55,7 +55,7 @@ class Mybuys_Connector_Model_Job extends Mage_Core_Model_Abstract
     public static function getNextJobFromQueue()
     {
         // Log
-        Mage::log('Getting next job from the queue.', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+        Mage::helper('mybuys')->log('Getting next job from the queue.', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
 
         // Create collection
         $collection = Mage::getResourceModel('mybuys/job_collection');
@@ -73,7 +73,7 @@ class Mybuys_Connector_Model_Job extends Mage_Core_Model_Abstract
         // Get next job and mark it as running
         foreach ($collection as $job) {
             // Log
-            Mage::log('Found job id: ' . $job->getJobId(), Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Found job id: ' . $job->getJobId(), Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
             // Set status and return job
             $job->setStatus(Mybuys_Connector_Model_Job::STATUS_RUNNING);
             $job->setStartedAt(Mage::getSingleton('core/date')->gmtDate());
@@ -82,7 +82,7 @@ class Mybuys_Connector_Model_Job extends Mage_Core_Model_Abstract
         }
 
         // Log
-        Mage::log('No jobs found.', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+        Mage::helper('mybuys')->log('No jobs found.', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
         // Otherwise return false
         return false;
 
@@ -95,7 +95,7 @@ class Mybuys_Connector_Model_Job extends Mage_Core_Model_Abstract
     public static function createJob($dependentOnJobId, $websiteId, $type, $feedType)
     {
         // Log
-        Mage::log('Scheduling new job.', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+        Mage::helper('mybuys')->log('Scheduling new job.', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
         // Create new job object and init fields
         $newJob = Mage::getModel('mybuys/job');
         $newJob->setDependentOnJobId($dependentOnJobId);
@@ -116,7 +116,7 @@ class Mybuys_Connector_Model_Job extends Mage_Core_Model_Abstract
     public static function cleanupJobQueue()
     {
         // Log
-        Mage::log('Cleaning up the job queue.', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+        Mage::helper('mybuys')->log('Cleaning up the job queue.', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
 
         // Iterate websites and check configuration
         $websites = Mage::app()->getWebsites(false, true);
@@ -128,7 +128,7 @@ class Mybuys_Connector_Model_Job extends Mage_Core_Model_Abstract
             $maxAgeDays = Mage::app()->getWebsite($websiteId)->getConfig('mybuys_datafeeds/advanced/max_job_age');
 
             // log
-            Mage::log('Max job age (for website id: ' . $websiteId . ') in days: ' . $maxAgeDays, Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Max job age (for website id: ' . $websiteId . ') in days: ' . $maxAgeDays, Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
 
             // Retrieve the write connection
             $resource = Mage::getSingleton('core/resource');
@@ -193,14 +193,14 @@ class Mybuys_Connector_Model_Job extends Mage_Core_Model_Abstract
         // Lookup configured time
         $configTime = trim(Mage::app()->getWebsite($websiteId)->getConfig('mybuys_datafeeds/schedule/dailyfeedtime'));
         // Log
-        Mage::log('Daily feed time configuration (for website id ' . $websiteId . '): "' . $configTime . '"', Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
+        Mage::helper('mybuys')->log('Daily feed time configuration (for website id ' . $websiteId . '): "' . $configTime . '"', Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
 
         // Lookup configured timezone
         $timezone = Mage::app()->getWebsite($websiteId)->getConfig('general/locale/timezone');
         // Get current time
         $curDateTime = new DateTime("now", new DateTimeZone($timezone));
         // Log
-        Mage::log('Current time: "' . $curDateTime->format('H:i:s') . '" timezone: "' . $curDateTime->getTimezone()->getName() . '"', Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
+        Mage::helper('mybuys')->log('Current time: "' . $curDateTime->format('H:i:s') . '" timezone: "' . $curDateTime->getTimezone()->getName() . '"', Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
 
         // Create time object from configured time
         $configDateTime = new DateTime("now", new DateTimeZone($timezone));
@@ -209,7 +209,7 @@ class Mybuys_Connector_Model_Job extends Mage_Core_Model_Abstract
             intval(substr($configTime, 3, 2)),
             intval(substr($configTime, 6, 2)));
         // Log
-        Mage::log('Configured time: "' . $configDateTime->format('H:i:s') . '" timezone: "' . $configDateTime->getTimezone()->getName() . '"', Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
+        Mage::helper('mybuys')->log('Configured time: "' . $configDateTime->format('H:i:s') . '" timezone: "' . $configDateTime->getTimezone()->getName() . '"', Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
 
         // Do time diff
         $minutes = floor(($curDateTime->format('U') - $configDateTime->format('U')) / 60);
@@ -248,8 +248,8 @@ class Mybuys_Connector_Model_Job extends Mage_Core_Model_Abstract
     public static function scheduleJobs($websiteId, $bBaselineFile)
     {
         // Log
-        Mage::log('Scheduling jobs for website: ' . $websiteId, Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
-        Mage::log('All feeds for website set to: ' . Mage::app()->getWebsite($websiteId)->getConfig('mybuys_datafeeds/general/allfeedsenabled'), Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+        Mage::helper('mybuys')->log('Scheduling jobs for website: ' . $websiteId, Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+        Mage::helper('mybuys')->log('All feeds for website set to: ' . Mage::app()->getWebsite($websiteId)->getConfig('mybuys_datafeeds/general/allfeedsenabled'), Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
 
         // Local to hold last job id
         $lastJobId = null;
@@ -291,20 +291,20 @@ class Mybuys_Connector_Model_Job extends Mage_Core_Model_Abstract
     {
         try {
             // Log
-            Mage::log('Running job: ' . $this->getJobId(), Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log('Website Id: ' . $this->getWebsiteId(), Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log('Dependent On Job Id: ' . $this->getDependentOnJobId(), Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log('Min Entity Id: ' . $this->getMinEntityId(), Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log('Type: ' . $this->getType(), Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log('Feed Type: ' . $this->getFeedType(), Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log('Memory usage: ' . memory_get_usage(), Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Running job: ' . $this->getJobId(), Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Website Id: ' . $this->getWebsiteId(), Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Dependent On Job Id: ' . $this->getDependentOnJobId(), Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Min Entity Id: ' . $this->getMinEntityId(), Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Type: ' . $this->getType(), Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Feed Type: ' . $this->getFeedType(), Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Memory usage: ' . memory_get_usage(), Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
 
             // Execute the job
             $this->executeJob();
 
             // Log
-            Mage::log('Job completed successfully.', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log('Memory usage: ' . memory_get_usage(), Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Job completed successfully.', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Memory usage: ' . memory_get_usage(), Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
         } catch (Exception $e) {
             // Fail this job
             $this->setStatus(Mybuys_Connector_Model_Job::STATUS_ERROR);
@@ -313,9 +313,9 @@ class Mybuys_Connector_Model_Job extends Mage_Core_Model_Abstract
             $this->save();
             // Log exception
             Mage::logException($e);
-            Mage::log('Job failed with error:', Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
-            Mage::log('Memory usage: ' . memory_get_usage(), Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Job failed with error:', Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log($e->getMessage(), Zend_Log::ERR, Mybuys_Connector_Helper_Data::LOG_FILE);
+            Mage::helper('mybuys')->log('Memory usage: ' . memory_get_usage(), Zend_Log::DEBUG, Mybuys_Connector_Helper_Data::LOG_FILE);
             // Send error email
             Mage::helper('mybuys')->sendErrorEmail($this->getWebsiteId(), $e->getMessage());
         }

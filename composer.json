@@ -1,13 +1,13 @@
 {
     "name": "OpenMageModuleFostering/MyBuys_Personalization_Extension",
     "type": "magento-module",
-    "license": "Commercial-Software-License",
+    "license": "GNU-General-Public-License-(GPL)",
     "homepage": "",
     "description": "MyBuys Website Code & Data Feed Integration",
     "authors": [
     {
-        "name": "Greg Croasdill",
-        "email": "gregc@human-element.com"
+        "name": "MyBuys Sandbox",
+        "email": "rbrant@mybuys.com"
     }
 ],
     "suggest": {

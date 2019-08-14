@@ -192,7 +192,7 @@ class Mybuys_Connector_Model_Feed_Product extends Mybuys_Connector_Model_Feed_Ba
      */
     protected function addIncrementalFilter($collection, $incrementalDate = NULL)
     {
-        Mage::log('Adding incremental filters to product feed', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
+        Mage::helper('mybuys')->log('Adding incremental filters to product feed', Zend_Log::INFO, Mybuys_Connector_Helper_Data::LOG_FILE);
         // daily feeds do not include out of stock items Filter on in_stock
         $collection->
             addAttributeToFilter('is_in_stock', 1);

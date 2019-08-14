@@ -20,16 +20,31 @@
         </reference>
     </cms_index_index> 
 
+   <!-- HIGH LEVEL CATEGORY -->
+    <catalog_category_layered translate="label">
+        <reference name="content">
+            <block type="core/text_list" name="mybuys_cat_block_high" after="category.products">
+            	<block type="catalog/product_list" name="mybuys_category_high" before="-" template="mybuys/websitecode/params/cat_high_level.phtml">
+            			<action method="setDefaultDirection"><value>desc</value></action>
+            	</block>
 
-    <!-- GENERAL CATEGORY -->
-     <catalog_category_view translate="label">
-         <reference name="content">
-            <block type="core/text_list" name="mybuys_cat_block_general" after="category.products">
-            	<block type="catalog/product_list" name="mybuys_category" before="-" template="mybuys/websitecode/params/category.phtml" />
-              	<block type="mybuys/zone" name="mybuys_recomendationzone" after="mybuys_category" template="mybuys/websitecode/recomendationzone/zone_category.phtml" />
+            	<block type="mybuys/zone" name="mybuys_recomendationzone_high" after="mybuys_category_high" template="mybuys/websitecode/recomendationzone/zone_cat_high.phtml" />
         	</block>
         </reference>
-      </catalog_category_view>
+    </catalog_category_layered>    
+
+    <!-- LEAF CATEGORY -->
+    <catalog_category_layered_nochildren translate="label">   
+        <reference name="content">
+            <remove name="mybuys_cat_block_high"/>
+            <block type="core/text_list" name="mybuys_cat_block_leaf" after="category.products">
+            	<block type="catalog/product_list" name="mybuys_category_leaf" before="-" template="mybuys/websitecode/params/cat_leaf.phtml">
+            		<action method="setDefaultDirection"><value>desc</value></action>
+            	</block>
+              <block type="mybuys/zone" name="mybuys_recomendationzone_leaf" after="mybuys_category_leaf" template="mybuys/websitecode/recomendationzone/zone_cat_leaf.phtml" />
+        	</block>
+        </reference>
+    </catalog_category_layered_nochildren> 
 
     <!-- PRODUCT VIEW --> 
     <catalog_product_view translate="label">
@@ -55,10 +70,10 @@
     <!-- SEARCH RESULT -->
     <catalogsearch_result_index translate="label">
         <reference name="content">
-            <block type="core/text_list" name="mybuys_cat_block_leaf" after="category.products">
-                <block type="catalog/product_list" name="mybuys_search" before="-" template="mybuys/websitecode/params/search.phtml" />
-                <block type="mybuys/zone" name="mybuys_recomendationzone" after="mybuys_search" template="mybuys/websitecode/recomendationzone/zone_search_result.phtml" />
+            <block type="catalog/product_list" name="mybuys_search" before="-" template="mybuys/websitecode/params/search.phtml">
+            	<action method="setDefaultDirection"><value>desc</value></action>
             </block>
+            <block type="mybuys/zone" name="mybuys_recomendationzone" after="-" template="mybuys/websitecode/recomendationzone/zone_search_result.phtml" />
         </reference>
     </catalogsearch_result_index>
 
@@ -93,8 +108,4 @@
             <block type="mybuys/zone" name="mybuys_recomendationzone" after="-" template="mybuys/websitecode/recomendationzone/zone_order_confirmation.phtml" />
         </reference>
     </checkout_onepage_success>
-    
-
 </layout>
-
-

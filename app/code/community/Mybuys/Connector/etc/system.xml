@@ -123,6 +123,46 @@
 					<show_in_website>1</show_in_website>
 					<show_in_store>1</show_in_store>
 					<fields>
+						<sendlog translate="label">
+                            <label>Send Log File</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>mybuys/system_config_logOptions</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>
+                            	<![CDATA[
+                            	<script type="text/javascript">
+                            		document.observe("dom:loaded", function() {
+										// initially set display for the note
+										var a = document.getElementById("mybuys_datafeeds_notification_sendlog");
+										var selectedValue = a.options[a.selectedIndex].value;
+										$$('#mybuys_log_hint').each(function(s) {
+											if(selectedValue == 'link'){
+												$('mybuys_log_hint').show();
+									   		} else {
+									   			$('mybuys_log_hint').hide();
+									   		}
+									    });
+									});
+                            		Event.observe('mybuys_datafeeds_notification_sendlog', 'change', function(){
+										var e = document.getElementById("mybuys_datafeeds_notification_sendlog");
+										var selectedValue = e.options[e.selectedIndex].value;
+										$$('#mybuys_log_hint').each(function(s) {
+											if(selectedValue == 'link'){
+												$('mybuys_log_hint').show();
+									   		} else {
+									   			$('mybuys_log_hint').hide();
+									   		}
+									    });
+									});
+								</script>
+								Select an option for sending log information with error notification<br />
+                            	<span id="mybuys_log_hint" style="padding:0;font-size:11px;display:none;">*Note: You must allow access to the mybuys.log file located in /var/log/ through the .htaccess file for this directory.</span>
+                            	]]>
+                            </comment>
+                        </sendlog>
 						<emails translate="label">
 							<label>Email Error Notifications</label>
 							<frontend_type>text</frontend_type>
@@ -132,8 +172,20 @@
 							<show_in_store>0</show_in_store>
 							<comment>Enter a list of email addresses separated by commas. (user1@domain.com,user2@domain.com,user3@otherdomain.com)</comment>
 						</emails>
+						<!--
+                        <log_email_identity translate="label">
+                            <label>Email Sender</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </log_email_identity>
+						-->
 					</fields>
 				</notification>
+
 				<feedsenabled translate="label">
 					<label>Data Feeds</label>
 					<frontend_type>text</frontend_type>
@@ -247,7 +299,7 @@
 					<label>Advanced Feed Configuration</label>
 					<frontend_type>text</frontend_type>
 					<sort_order>9</sort_order>
-					<show_in_default>0</show_in_default>
+					<show_in_default>1</show_in_default>
 					<show_in_website>1</show_in_website>
 					<show_in_store>0</show_in_store>
 					<fields>
@@ -269,8 +321,32 @@
 							<show_in_store>0</show_in_store>
 							<comment>Feed generation record count throttle parameter.  Only this many records will be exported in a single job run.  (0 = No throttling)</comment>
 						</throttle>
-					</fields>
-				</advanced>
+                        <force_logging translate="label">
+                            <label>Force Logging</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>mybuys/system_config_enableToggle</source_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Enable MyBuys logging even if Magento logging is disabled</comment>
+                        </force_logging>
+                        <notice translate="label">
+                             <frontend_type>Text</frontend_type>
+                             <frontend_model>mybuys/adminhtml_system_config_commentText</frontend_model> <!-- render comment as text -->
+                             <comment><![CDATA[
+                                 To configure <b>Forced Logging</b>, please select the <b>Default Config</b> scope from the <i>Current Configuration Scope</i> dropdown
+                                 <br/><br/>]]>
+                             </comment>
+                             <sort_order>99</sort_order>
+                             <show_in_default>0</show_in_default>
+                             <show_in_website>1</show_in_website>
+                             <show_in_store>1</show_in_store>
+                         </notice>
+
+                    </fields>
+                </advanced>
+
 			</groups>
 		</mybuys_datafeeds>
 
@@ -380,7 +456,7 @@
 							<show_in_store>1</show_in_store>
 							<comment>Enable/disable product detail recommendations</comment>
 						</product_detail>
-                                          <product_review translate="label">
+                        <product_review translate="label">
  							<label>Product Review</label>
 							<frontend_type>select</frontend_type>
 							<source_model>mybuys/system_config_enableToggle</source_model>
@@ -389,7 +465,7 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 							<comment>Enable/disable product detail recommendations</comment>
-                                          </product_review>
+                        </product_review>
 						<search_results translate="label">
 							<label>Search Result</label>
 							<frontend_type>select</frontend_type>
@@ -410,18 +486,6 @@
 							<show_in_store>1</show_in_store>
 							<comment>Enable/disable add-to-cart recommendations</comment>
 						</add_to_cart>
-<!--
-						<wishlist translate="label">
-							<label>Wishlist</label>
-							<frontend_type>select</frontend_type>
-							<source_model>mybuys/system_config_enableToggle</source_model>
-							<sort_order>8</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<comment>Enable/disable wishlist recommendations</comment>
-						</wishlist>
--->
 						<checkout translate="label">
 							<label>Shopping Cart and Checkout</label>
 							<frontend_type>select</frontend_type>

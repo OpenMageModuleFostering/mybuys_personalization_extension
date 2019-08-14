@@ -102,6 +102,10 @@ class Mybuys_Connector_Model_Feed_Transaction extends Mybuys_Connector_Model_Fee
         $collection->getSelect()
             ->order('main_table.item_id');
 
+        //fix problems with some installs returning multiple identical rows
+        $collection->getSelect()
+            ->distinct();
+
         // Return collection
         return $collection;
     }
@@ -111,16 +115,16 @@ class Mybuys_Connector_Model_Feed_Transaction extends Mybuys_Connector_Model_Fee
      *
      * $collection Collection of data which will be spit out as feed
      */
-    protected function addIncrementalFilter($collection, $incrementalDate)
+    protected function addIncrementalFilter($collection, $incrementalDate=Null)
     {
+        if (strtotime($incrementalDate)) { // if a valid date string
+            // convert given date into GMT (Magento) time
+            $dateStart = date("Y-m-d H:i:s", Mage::getModel('core/date')->timestamp(strtotime($incrementalDate . "00:00:00")));
+            $dateEnd = date("Y-m-d H:i:s", Mage::getModel('core/date')->timestamp(strtotime($incrementalDate . "23:59:59")));
 
-        // convert given date into GMT (Magento) time
-        $dateStart = date("Y-m-d H:i:s", Mage::getModel('core/date')->timestamp(strtotime($incrementalDate . "00:00:00")));
-        $dateEnd = date("Y-m-d H:i:s", Mage::getModel('core/date')->timestamp(strtotime($incrementalDate . "23:59:59")));
-
-        $collection->getSelect()
-            ->where("date(main_table.created_at) between '" . $dateStart . "' AND '" . $dateEnd . "'");
-
+            $collection->getSelect()
+                ->where("date(main_table.created_at) between '" . $dateStart . "' AND '" . $dateEnd . "'");
+        }
         return $collection;
     }
 
