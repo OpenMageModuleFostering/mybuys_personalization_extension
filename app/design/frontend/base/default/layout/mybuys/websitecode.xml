@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+
+    <!-- DEFAULT -->
+    <default>
+        <reference name="head">
+            <block type="core/template" name="mybuys_head_links" before="-" template="mybuys/websitecode/header.phtml"/>
+            <action method="addCss"><stylesheet>css/recommendation_zone.css</stylesheet></action> 
+        </reference>
+        <reference name="before_body_end"> 
+            <block type="core/template" name="mybuys_init" after="-" template="mybuys/websitecode/init.phtml"/>
+        </reference>
+    </default>
+
+    <!-- HOME PAGE -->
+    <cms_index_index>
+        <reference name="content">
+            <block type="core/template" name="mybuys_home" before="-" template="mybuys/websitecode/params/home.phtml" />
+            <block type="mybuys/zone" name="mybuys_recomendationzone" after="-" template="mybuys/websitecode/recomendationzone/zone_home.phtml" />
+        </reference>
+    </cms_index_index> 
+
+   <!-- HIGH LEVEL CATEGORY -->
+    <catalog_category_layered translate="label">
+        <reference name="content">
+            <block type="catalog/product_list" name="mybuys_category_high" before="-" template="mybuys/websitecode/params/cat_high_level.phtml" />
+            <block type="mybuys/zone" name="mybuys_recomendationzone_high" after="category.products" template="mybuys/websitecode/recomendationzone/zone_cat_high.phtml" />
+        </reference>
+    </catalog_category_layered>    
+
+    <!-- LEAF CATEGORY -->
+    <catalog_category_layered_nochildren translate="label">   
+        <reference name="content">
+            <remove name="mybuys_category_high"/>
+            <remove name="mybuys_recomendationzone_high"/> 
+            <block type="catalog/product_list" name="mybuys_category_leaf" before="-" template="mybuys/websitecode/params/cat_leaf.phtml" />
+            <block type="mybuys/zone" name="mybuys_recomendationzone_leaf" after="category.products" template="mybuys/websitecode/recomendationzone/zone_cat_leaf.phtml" />
+        </reference>
+    </catalog_category_layered_nochildren> 
+
+    <!-- PRODUCT VIEW --> 
+    <catalog_product_view translate="label">
+        <reference name="content">
+            <block type="mybuys/zone" name="mybuys_recomendationzone" after="-" template="mybuys/websitecode/recomendationzone/zone_product_detail.phtml" />
+            <block type="enterprise_targetrule/catalog_product_list_related" name="mybuys_targetrule_related" before="-" template="mybuys/websitecode/params/target_rule_related.phtml" />
+            <block type="enterprise_targetrule/catalog_product_list_upsell" name="mybuys_targetrule_upsell" before="-" template="mybuys/websitecode/params/target_rule_upsell.phtml" />
+            <block type="mybuys/category" name="mybuys_product_view" before="-" template="mybuys/websitecode/params/product.phtml" />
+        </reference> 
+        <reference name="product.info.addto">
+            <action method="setTemplate"><template>mybuys/websitecode/button.phtml</template></action>                
+        </reference>
+    </catalog_product_view>
+
+    <!-- PRODUCT REVIEW -->
+    <review_product_list translate="label">
+         <reference name="content">
+            <block type="mybuys/category" name="mybuys_product_review" before="-" template="mybuys/websitecode/params/product_review.phtml" />
+            <block type="mybuys/zone" name="mybuys_recomendationzone" after="-" template="mybuys/websitecode/recomendationzone/zone_product_review.phtml" />
+        </reference> 
+    </review_product_list>
+
+    <!-- SEARCH RESULT -->
+    <catalogsearch_result_index translate="label">
+        <reference name="content">
+            <block type="catalog/product_list" name="mybuys_search" before="-" template="mybuys/websitecode/params/search.phtml" />
+            <block type="mybuys/zone" name="mybuys_recomendationzone" after="-" template="mybuys/websitecode/recomendationzone/zone_search_result.phtml" />
+        </reference>
+    </catalogsearch_result_index>
+
+    <!-- SHOPPING CART -->
+    <checkout_cart_index translate="label">
+        <reference name="content">
+            <block type="mybuys/category" name="mybuys_cart" before="-" template="mybuys/websitecode/params/checkout.phtml" />
+            <block type="mybuys/zone" name="mybuys_recomendationzone" after="-" template="mybuys/websitecode/recomendationzone/zone_checkout.phtml" />
+        </reference>
+    </checkout_cart_index>
+
+   <!-- WISHLIST -->
+   <wishlist_index_index translate="label">
+        <reference name="content">
+            <block type="core/template" name="mybuys_wishlist" before="-" template="mybuys/websitecode/params/wishlist.phtml" />
+            <block type="mybuys/zone" name="mybuys_recomendationzone" after="-" template="mybuys/websitecode/recomendationzone/zone_wishlist.phtml" />
+        </reference>
+   </wishlist_index_index>
+
+    <!-- CHECKOUT ONEPAGE -->
+    <checkout_onepage_index translate="label">
+        <reference name="content">
+            <block type="mybuys/category" name="mybuys_checkout" after="-" template="mybuys/websitecode/params/checkout.phtml" />
+            <block type="mybuys/zone" name="mybuys_recomendationzone" after="-" template="mybuys/websitecode/recomendationzone/zone_checkout.phtml" />
+        </reference>
+    </checkout_onepage_index>
+
+    <!-- CHECKOUT ONEPAGE SUCCESS -->
+    <checkout_onepage_success translate="label">
+        <reference name="content">
+            <block type="mybuys/category" name="mybuys_success" after="-" template="mybuys/websitecode/params/confirmation.phtml" />
+            <block type="mybuys/zone" name="mybuys_recomendationzone" after="-" template="mybuys/websitecode/recomendationzone/zone_order_confirmation.phtml" />
+        </reference>
+    </checkout_onepage_success>
+    
+
+</layout>
+
+

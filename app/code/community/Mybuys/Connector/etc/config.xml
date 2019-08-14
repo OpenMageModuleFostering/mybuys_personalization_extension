@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * MyBuys Magento Connector
+ *
+ * @category	Mybuys
+ * @package    	Mybuys_Connector
+ * @website 	http://www.mybuys.com <http://www.mybuys.com/>
+ * @copyright 	Copyright (C) 2009-2012 MyBuys, Inc. All Rights Reserved.
+ */
+-->
+<config>
+
+	<modules>
+		<Mybuys_Connector>
+			<version>1.0.7</version>
+		</Mybuys_Connector>
+	</modules>
+
+	<global>
+		<helpers>
+			<mybuys>
+				<class>Mybuys_Connector_Helper</class>
+			</mybuys>
+		</helpers>
+
+		<blocks>
+			<mybuys>
+				<class>Mybuys_Connector_Block</class>
+			</mybuys>
+		</blocks>
+		<models>
+			<mybuys>
+				<class>Mybuys_Connector_Model</class>
+				<resourceModel>mybuys_mysql4</resourceModel>
+			</mybuys>
+			<mybuys_mysql4>
+				<class>Mybuys_Connector_Model_Mysql4</class>
+				<entities>
+					<job>
+						<table>mybuys_job</table>
+					</job>
+				</entities>
+			</mybuys_mysql4>
+		</models>
+		<resources>
+			<mybuys_setup>
+				<setup>
+					<module>Mybuys_Connector</module>
+					<class>Mage_Catalog_Model_Resource_Eav_Mysql4_Setup</class>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</mybuys_setup>
+			<mybuys_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</mybuys_write>
+			<mybuys_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</mybuys_read>
+		</resources>
+	</global>
+
+	<admin>
+		<routers>
+			<mybuys>
+				<use>admin</use>
+				<args>
+					<module>Mybuys_Connector</module>
+					<frontName>mybuys</frontName>
+				</args>
+			</mybuys>
+		</routers>
+	</admin>
+
+	<frontend>
+		<layout>
+			<updates>
+				<mybuys>
+					<file>mybuys/websitecode.xml</file>
+				</mybuys>
+			</updates>
+		</layout>
+	</frontend>
+
+	<adminhtml>
+		<layout>
+			<updates>
+				<mybuys>
+					<file>mybuys.xml</file>
+				</mybuys>
+			</updates>
+		</layout>
+	</adminhtml>
+
+	<crontab>
+		<jobs>
+			<mybuys_processdailyfeeds>
+				<schedule>
+					<cron_expr>0,5,10,15,20,25,30,35,40,45,50,55 * * * *</cron_expr>
+				</schedule>
+				<run>
+					<model>mybuys/observer::processDailyFeeds</model>
+				</run>
+			</mybuys_processdailyfeeds>
+		</jobs>
+	</crontab>
+
+	<default>
+		<mybuys_datafeeds>
+			<general>
+				<allfeedsenabled>disabled</allfeedsenabled>
+			</general>
+			<connect>
+				<hostname>f.p.mybuys.com</hostname>
+				<port>20022</port>
+				<username></username>
+				<password></password>
+			</connect>
+			<schedule>
+				<dailyfeedtime/>
+			</schedule>
+			<notification>
+				<emails></emails>
+			</notification>
+			<feedsenabled>
+				<category>enabled</category>
+				<category_attributes></category_attributes>
+				<product>enabled</product>
+				<product_attributes></product_attributes>
+				<sku>enabled</sku>
+				<transaction>enabled</transaction>
+				<crosssell>disabled</crosssell>
+				<rating>disabled</rating>
+				<email_optin>disabled</email_optin>
+				<email_optout>disabled</email_optout>
+			</feedsenabled>
+			<advanced>
+				<max_job_age>7</max_job_age>
+				<throttle>0</throttle>
+                <!-- change only if needed - attribute_limit values larger than 30 may cause problems with MySQL -->
+                <attribute_limit>20</attribute_limit>
+			</advanced>
+		</mybuys_datafeeds>
+		<mybuys_websitecode>
+			<general>
+				<identifier></identifier>
+				<website_code>disabled</website_code>
+			</general>
+			<button>
+				<mybuys_button>disabled</mybuys_button>
+			</button>
+			<recommendation>
+				<recommendation>disabled</recommendation>
+				<homepage>disabled</homepage>
+				<cat_high>disabled</cat_high>
+				<cat_leaf>disabled</cat_leaf>
+				<product_detail>disabled</product_detail>
+				<search_results>disabled</search_results>
+				<add_to_cart>disabled</add_to_cart>
+				<checkout>disabled</checkout>
+				<order_confirmation>disabled</order_confirmation>
+			</recommendation>
+		</mybuys_websitecode>
+	</default>
+</config>

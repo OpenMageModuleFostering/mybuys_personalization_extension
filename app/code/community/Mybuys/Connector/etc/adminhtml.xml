@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * MyBuys Magento Connector
+ *
+ * @category	Mybuys
+ * @package    	Mybuys_Connector
+ * @website 	http://www.mybuys.com <http://www.mybuys.com/>
+ * @copyright 	Copyright (C) 2009-2012 MyBuys, Inc. All Rights Reserved.
+ */
+-->
+<config>
+	<!-- MyBuys menu definition -->
+	<menu>
+		<mybuys module="mybuys">
+			<title>MyBuys</title>
+			<sort_order>85</sort_order>
+			<children>
+				<export module="mybuys">
+					<title>Generate Baseline Feeds</title>
+					<sort_order>0</sort_order>
+					<action>mybuys/adminhtml_export</action>
+				</export>
+				<job module="mybuys">
+					<title>Data Feed Queue</title>
+					<sort_order>0</sort_order>
+					<action>mybuys/adminhtml_job</action>
+				</job>
+			</children>
+		</mybuys>
+	</menu>
+
+	<!-- Config sections permission -->
+	<acl>
+		<resources>
+			<admin>
+				<children>
+					<system>
+						<children>
+							<config>
+								<children>
+									<mybuys_datafeeds translate="title" module="mybuys">
+										<title>MyBuys Data Feeds Configuration Section</title>
+										<sort_order>1</sort_order>
+									</mybuys_datafeeds>
+									<mybuys_websitecode translate="title" module="mybuys">
+										<title>MyBuys Website Code Section</title>
+										<sort_order>2</sort_order>
+									</mybuys_websitecode>
+								</children>
+							</config>
+						</children>
+					</system>
+				</children>
+			</admin>
+		</resources>
+	</acl>
+
+	<!-- Menu permissions -->
+	<acl>
+		<resources>
+			<admin>
+				<children>
+					<mybuys translate="title" module="mybuys">
+						<title>MyBuys</title>
+						<sort_order>1000</sort_order>
+						<children>
+							<export translate="title">
+								<title></title>
+							</export>
+						</children>
+					</mybuys>
+				</children>
+			</admin>
+		</resources>
+	</acl>
+</config>

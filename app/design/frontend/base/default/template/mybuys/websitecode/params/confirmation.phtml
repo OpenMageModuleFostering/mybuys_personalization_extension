@@ -1,0 +1,51 @@
+<?php if (Mage::getStoreConfig('mybuys_websitecode/general/website_code') == 'enabled') : ?>
+<?php $_orderId = Mage::getSingleton('checkout/session')->getLastOrderId(); ?>
+<?php $_order = Mage::getModel('sales/order')->load($_orderId); ?>
+<?php $orderEmail = $_order->getCustomerEmail(); ?>
+<?php $subscriber = Mage::getModel('newsletter/subscriber')->loadByEmail($orderEmail); ?>
+<?php $_items = $_order->getAllItems(); ?>
+
+<script type="text/javascript">
+    mybuys.setPageType("ORDER_CONFIRMATION");
+    mybuys.set("email","<?php echo $orderEmail; ?>");
+    mybuys.set("orderid","<?php echo $_orderId ?>");
+    mybuys.set("amount","<?php echo money_format('%.2n',$_order->getSubtotal()); ?>");
+    mybuys.set("optin","<?php echo $subscriber->isSubscribed()?"y":"n";?>");
+</script>
+
+<?php $version = explode(".",Mage::getVersion()); ?>
+
+<?php if ($version[1] == 7 || $version[1] == 12 ) : ?>
+    <script type="text/javascript">
+    <?php foreach($_items as $item) : ?>
+        <?php $product = $item->getProduct();  ?>
+        <?php if($item->getParentItem()) : ?>
+            <?php if($item->getParentItem()->getProductType() == 'bundle') : ?>
+                mybuys.addOrderItemQtySubtotal("<?php echo $product->getId() ?>","<?php echo (int)$item->getQtyOrdered() ?>","0.00");
+            <?php else: ?>
+                mybuys.addOrderItemQtySubtotal("<?php echo $product->getId() ?>","<?php echo (int)$item->getQtyOrdered() ?>","<?php echo money_format('%.2n',$item->getRowTotal()); ?>");
+            <?php endif; ?>
+        <?php else: ?>
+            mybuys.addOrderItemQtySubtotal("<?php echo $product->getId() ?>","<?php echo (int)$item->getQtyOrdered() ?>","<?php echo money_format('%.2n',$item->getRowTotal()); ?>");
+        <?php endif; ?>
+    <?php endforeach; ?>
+    </script>
+
+<?php else: ?>
+    <script type="text/javascript">
+    <?php foreach($_items as $item) : ?>
+        <?php $product = Mage::getModel('catalog/product')->loadByAttribute('sku',$item->getSku()); ?>
+        <?php if($item->getParentItem()) : ?>
+            <?php if($item->getParentItem()->getProductType() == 'bundle') : ?>
+                mybuys.addOrderItemQtySubtotal("<?php echo $item->getProductId(); ?>","<?php echo (int)$item->getQtyOrdered() ?>","0.00");
+            <?php else: ?> 
+                mybuys.addOrderItemQtySubtotal("<?php echo $item->getProductId(); ?>","<?php echo (int)$item->getQtyOrdered() ?>","<?php echo money_format('%.2n',$item->getRowTotal()); ?>");
+           <?php endif; ?>
+       <?php else: ?>
+            mybuys.addOrderItemQtySubtotal("<?php echo $item->getProductId(); ?>","<?php echo (int)$item->getQtyOrdered() ?>","<?php echo money_format('%.2n',$item->getRowTotal()); ?>");
+       <?php endif; ?>
+    <?php endforeach; ?>
+    </script>
+<?php endif; ?>
+
+<?php endif; ?>

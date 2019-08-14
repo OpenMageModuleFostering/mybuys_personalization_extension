@@ -1,0 +1,450 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * MyBuys Magento Connector
+ *
+ * @category	Mybuys
+ * @package    	Mybuys_Connector
+ * @website 	http://www.mybuys.com <http://www.mybuys.com/>
+ * @copyright 	Copyright (C) 2009-2012 MyBuys, Inc. All Rights Reserved.
+ */
+-->
+
+<config>
+	<tabs>
+		<mybuys translate="label" module="mybuys">
+			<label><![CDATA[<div style="text-transform:none;padding-left:0px;">MyBuys</div>]]></label>
+			<sort_order>150</sort_order>
+		</mybuys>
+	</tabs>
+
+	<sections>
+		<mybuys_datafeeds translate="label" module="mybuys">
+			<label>Data Feeds Configuration</label>
+			<tab>mybuys</tab>
+			<frontend_type>text</frontend_type>
+			<sort_order>3310</sort_order>
+			<show_in_default>1</show_in_default>
+			<show_in_website>1</show_in_website>
+			<show_in_store>1</show_in_store>
+			<groups>
+				<general translate="label">
+					<label>General</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>1</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<allfeedsenabled translate="label">
+							<label>Data Feeds Enabled</label>
+							<frontend_type>select</frontend_type>
+							<source_model>mybuys/system_config_enableToggle</source_model>
+							<sort_order>1</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Enable/disable all data feeds</comment>
+						</allfeedsenabled>
+					</fields>
+				</general>
+				<connect translate="label">
+					<label>SFTP Connectivity</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>2</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<hostname translate="label">
+							<label>Hostname</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>2</sort_order>
+							<show_in_default>0</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+							<comment>Enter Hostname provided by MyBuys</comment>
+						</hostname>
+						<port translate="label">
+							<label>Port Number</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>2</sort_order>
+							<show_in_default>0</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+							<validate>validate-number</validate>
+							<comment>Enter the port number provided by MyBuys</comment>
+						</port>
+						<username translate="label">
+							<label>Username</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>3</sort_order>
+							<show_in_default>0</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+							<comment>Enter SFTP username provided by MyBuys</comment>
+						</username>
+						<password translate="label">
+							<label>Password</label>
+							<frontend_type>obscure</frontend_type>
+							<backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+							<sort_order>4</sort_order>
+							<show_in_default>0</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+							<comment>Enter SFTP account password provided by MyBuys</comment>
+						</password>
+					</fields>
+				</connect>
+				<schedule translate="label">
+					<label>Data Feed Schedule</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>3</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<dailyfeedtime translate="label comment" >
+							<label>Time of day to run Data Feeds</label>
+							<frontend_type>Time</frontend_type>
+							<sort_order>1</sort_order>
+							<show_in_default>0</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+							<comment>Hour-----Minute-----Second (Server Time)</comment>
+						</dailyfeedtime>
+					</fields>
+				</schedule>
+				<notification translate="label">
+					<label>Error Email Notifications</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>4</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<emails translate="label">
+							<label>Email Error Notifications</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>1</sort_order>
+							<show_in_default>0</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+							<comment>Enter a list of email addresses separated by commas. (user1@domain.com,user2@domain.com,user3@otherdomain.com)</comment>
+						</emails>
+					</fields>
+				</notification>
+				<feedsenabled translate="label">
+					<label>Data Feeds</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>5</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+                    <!--<expanded>1</expanded>-->
+                    <!-- <comment>This comment goes on the top of the Group</comment> -->
+					<fields>
+
+                        <notice translate="label">
+                            <frontend_type>Text</frontend_type>
+                            <frontend_model>mybuys/adminhtml_system_config_commentText</frontend_model> <!-- render comment as text -->
+                            <comment><![CDATA[
+                                To configure <b>Data Feeds</b>, please select a <b>website</b> scope from the <i>Current Configuration Scope</i> dropdown
+                                ]]>
+                            </comment>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </notice>
+
+						<category translate="label">
+							<label>Category Feed</label>
+							<frontend_type>select</frontend_type>
+							<source_model>mybuys/system_config_enableToggle</source_model>
+							<sort_order>0</sort_order>
+							<show_in_default>0</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+						</category>
+                        <product translate="label">
+							<label>Product Feed</label>
+							<frontend_type>select</frontend_type>
+							<source_model>mybuys/system_config_enableToggle</source_model>
+							<sort_order>2</sort_order>
+							<show_in_default>0</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+						</product>
+						<product_attributes translate="label">
+							<label>Product Custom Attributes</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>mybuys/system_config_productAttributes</source_model>
+                            <backend_model>mybuys/system_validate_productAttributes</backend_model>
+							<sort_order>3</sort_order>
+							<show_in_default>0</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+							<comment>Select up to 20 custom product attributes to include in product feed. If more than 20 items are selected, then only the first 20 will be saved and included in the feed.</comment>
+						</product_attributes>
+						<sku translate="label">
+							<label>SKU Feed</label>
+							<frontend_type>select</frontend_type>
+							<source_model>mybuys/system_config_enableToggle</source_model>
+							<sort_order>4</sort_order>
+							<show_in_default>0</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+						</sku>
+						<transaction translate="label">
+							<label>Transactions Feed</label>
+							<frontend_type>select</frontend_type>
+							<source_model>mybuys/system_config_enableToggle</source_model>
+							<sort_order>5</sort_order>
+							<show_in_default>0</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+						</transaction>
+						<crosssell translate="label">
+							<label>Cross Sells Feed</label>
+							<frontend_type>select</frontend_type>
+							<source_model>mybuys/system_config_enableToggle</source_model>
+							<sort_order>6</sort_order>
+							<show_in_default>0</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+						</crosssell>
+						<rating translate="label">
+							<label>Ratings Feed</label>
+							<frontend_type>select</frontend_type>
+							<source_model>mybuys/system_config_enableToggle</source_model>
+							<sort_order>7</sort_order>
+							<show_in_default>0</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+						</rating>
+						<email_optin translate="label">
+							<label>Email Opt-in Feed</label>
+							<frontend_type>select</frontend_type>
+							<source_model>mybuys/system_config_enableToggle</source_model>
+							<sort_order>8</sort_order>
+							<show_in_default>0</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+						</email_optin>
+						<email_optout translate="label">
+							<label>Email Opt-out Feed</label>
+							<frontend_type>select</frontend_type>
+							<source_model>mybuys/system_config_enableToggle</source_model>
+							<sort_order>9</sort_order>
+							<show_in_default>0</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+						</email_optout>
+					</fields>
+				</feedsenabled>
+				<advanced translate="label">
+					<label>Advanced Feed Configuration</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>9</sort_order>
+					<show_in_default>0</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>0</show_in_store>
+					<fields>
+						<max_job_age translate="label">
+							<label>Maximum Job Age (Days)</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>1</sort_order>
+							<show_in_default>0</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+							<comment>Maximum age for jobs in the data feed job queue.  Jobs older than this number of days will be deleted</comment>
+						</max_job_age>
+						<throttle translate="label">
+							<label>Feed Gen Throttle</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>2</sort_order>
+							<show_in_default>0</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>0</show_in_store>
+							<comment>Feed generation record count throttle parameter.  Only this many records will be exported in a single job run.  (0 = No throttling)</comment>
+						</throttle>
+					</fields>
+				</advanced>
+			</groups>
+		</mybuys_datafeeds>
+
+		<mybuys_websitecode translate="label" module="mybuys">
+			<label>MyBuys Website Code</label>
+			<tab>mybuys</tab>
+			<frontend_type>text</frontend_type>
+			<sort_order>3410</sort_order>
+			<show_in_default>1</show_in_default>
+			<show_in_website>1</show_in_website>
+			<show_in_store>1</show_in_store>
+			<groups>
+				<general translate="label">
+					<label>General</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>1</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<identifier translate="label">
+							<label>Client Identifier</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>0</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Enter your client ID provided by MyBuys</comment>
+						</identifier>
+						<website_code translate="label">
+							<label>All Website Code</label>
+							<frontend_type>select</frontend_type>
+							<source_model>mybuys/system_config_enableToggle</source_model>
+							<sort_order>1</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Enable/disable website code</comment>
+						</website_code>
+					</fields>
+				</general>
+				<button translate="label">
+					<label>MyBuys Sign-Up Button</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>3</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<mybuys_button translate="label">
+							<label>MyBuys Sign-Up Button</label>
+							<frontend_type>select</frontend_type>
+							<source_model>mybuys/system_config_enableToggle</source_model>
+							<sort_order>3</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Enable/disable MyBuys sign-up button</comment>
+						</mybuys_button>
+					</fields>
+				</button>
+				<recommendation translate="label">
+					<label>Recommendation Zones</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>4</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<homepage translate="label">
+							<label>Homepage</label>
+							<frontend_type>select</frontend_type>
+							<source_model>mybuys/system_config_enableToggle</source_model>
+							<sort_order>1</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Enable/disable home recommendations</comment>
+						</homepage>
+						<cat_high translate="label">
+							<label>High Category Level</label>
+							<frontend_type>select</frontend_type>
+							<source_model>mybuys/system_config_enableToggle</source_model>
+							<sort_order>2</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Enable/disable high level category recommendations</comment>
+						</cat_high>
+						<cat_leaf translate="label">
+							<label>Leaf Level Category</label>
+							<frontend_type>select</frontend_type>
+							<source_model>mybuys/system_config_enableToggle</source_model>
+							<sort_order>3</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Enable/disable leaf level category recommendations</comment>
+						</cat_leaf >
+						<product_detail translate="label">
+							<label>Product Detail</label>
+							<frontend_type>select</frontend_type>
+							<source_model>mybuys/system_config_enableToggle</source_model>
+							<sort_order>4</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Enable/disable product detail recommendations</comment>
+						</product_detail>
+                                          <product_review translate="label">
+ 							<label>Product Review</label>
+							<frontend_type>select</frontend_type>
+							<source_model>mybuys/system_config_enableToggle</source_model>
+							<sort_order>5</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Enable/disable product detail recommendations</comment>
+                                          </product_review>
+						<search_results translate="label">
+							<label>Search Result</label>
+							<frontend_type>select</frontend_type>
+							<source_model>mybuys/system_config_enableToggle</source_model>
+							<sort_order>6</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Enable/disable search result recommendations</comment>
+						</search_results>
+						<add_to_cart translate="label">
+							<label>Add To Cart</label>
+							<frontend_type>select</frontend_type>
+							<source_model>mybuys/system_config_enableToggle</source_model>
+							<sort_order>7</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Enable/disable add-to-cart recommendations</comment>
+						</add_to_cart>
+<!--
+						<wishlist translate="label">
+							<label>Wishlist</label>
+							<frontend_type>select</frontend_type>
+							<source_model>mybuys/system_config_enableToggle</source_model>
+							<sort_order>8</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Enable/disable wishlist recommendations</comment>
+						</wishlist>
+-->
+						<checkout translate="label">
+							<label>Shopping Cart and Checkout</label>
+							<frontend_type>select</frontend_type>
+							<source_model>mybuys/system_config_enableToggle</source_model>
+							<sort_order>9</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Enable/disable checkout recommendations</comment>
+						</checkout>
+						<order_confirmation translate="label">
+							<label>Order Confirmaiton</label>
+							<frontend_type>select</frontend_type>
+							<source_model>mybuys/system_config_enableToggle</source_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Enable/disable order confirmation recommendations</comment>
+						</order_confirmation>
+					</fields>
+				</recommendation>
+			</groups>
+		</mybuys_websitecode>
+	</sections>
+</config>

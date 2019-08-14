@@ -1,0 +1,19 @@
+<?php if (Mage::getStoreConfig('mybuys_websitecode/general/website_code') == 'enabled') : ?>
+<?php $collection = $this->getLoadedProductCollection(); ?>
+<?php $catId = Mage::getSingleton('catalog/layer')->getCurrentCategory()->getId(); ?>
+<script type="text/javascript">
+    mybuys.setPageType("HIGH_LEVEL_CATEGORY");
+    mybuys.set("categoryid","<?php echo $catId; ?>");
+</script>
+
+<?php if(Mage::getStoreConfig('mybuys_websitecode/recommendation/recommendation') && Mage::getStoreConfig('mybuys_websitecode/recommendation/cat_high') && count($collection)>0 ) : ?>
+<script type="text/javascript">
+<?php
+foreach ($collection as $product)
+{
+    echo  'mybuys.addItemPresentOnPage("'.$product->getId().'");';    
+}
+?>
+</script>
+<?php endif; ?>
+<?php endif; ?>

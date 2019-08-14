@@ -1,0 +1,7 @@
+<?php if (Mage::getStoreConfig('mybuys_websitecode/general/website_code') == 'enabled') : ?>
+<?php $productId = Mage::registry('current_product')->getId(); ?>
+<script type="text/javascript">
+	mybuys.setPageType("RATINGS");
+	mybuys.set("productID","<?php echo $productId ?>");
+</script>
+<?php endif; ?>

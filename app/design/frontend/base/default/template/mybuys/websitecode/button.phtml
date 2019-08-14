@@ -1,0 +1,16 @@
+<?php $_product = $this->getProduct(); ?>
+<ul class="add-to-links">
+
+<?php // wish list may not exist in some old Magento versions, so test for it ?>
+<?php if(method_exists($this->helper('wishlist'),'getAddUrl')) : ?>
+<?php $_wishlistSubmitUrl = $this->helper('wishlist')->getAddUrl($_product); ?>
+    <?php if ($this->helper('wishlist')->isAllow()) : ?>
+        <li><a href="<?php echo $_wishlistSubmitUrl ?>" onclick="productAddToCartForm.submitLight(this, this.href); return false;" class="link-compare"><?php echo $this->__('Update Wishlist') ?></a></li>
+    <?php endif; ?>
+<?php endif; ?>
+
+<?php $_compareUrl = $this->helper('catalog/product_compare')->getAddUrl($_product); ?>
+<?php if($_compareUrl) : ?>
+    <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>" class="link-compare"><?php echo $this->__('Add to Compare') ?></a></li>
+<?php endif; ?>
+</ul>

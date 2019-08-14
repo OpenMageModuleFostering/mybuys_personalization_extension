@@ -1,0 +1,41 @@
+<?php if (Mage::getStoreConfig('mybuys_websitecode/general/website_code') == 'enabled') : ?>
+    <?php $currentProduct = Mage::registry('current_product'); ?>
+    <?php $relatedProducts = $currentProduct->getRelatedProductCollection(); ?>
+    <?php $upsell_products = $currentProduct->getUpSellProductCollection(); ?>
+    <?php if(Mage::getStoreConfig('catalog/frontend/flat_catalog_product') != true){
+	    $relatedProducts->addAttributeToSort('position', Varien_Db_Select::SQL_ASC)->addStoreFilter();
+	    $upsell_products->addAttributeToSort('position', Varien_Db_Select::SQL_ASC)->addStoreFilter();
+    } ?>
+
+    <script type="text/javascript">
+        mybuys.setPageType("PRODUCT_DETAILS");
+        mybuys.set("productid","<?php echo $currentProduct->getId() ?>");
+    </script>
+
+    <script type="text/javascript">
+        /* current product being viewed */
+        mybuys.addItemPresentOnPage("<?php echo $currentProduct->getId() ?>"); 
+    </script>
+    <?php $version = explode(".",Mage::getVersion()); ?>
+    <?php if ($version[1] <= 7 ) : ?>
+        <?php if($this->zoneEnabled()) : ?>
+        <script type="text/javascript">
+            /* related products */
+            mybuys.addItemPresentOnPage("<?php echo $currentProduct->getId() ?>");
+            <?php foreach ($relatedProducts as $product) : ?>
+                <?php if($product->isVisibleInCatalog()) : ?>
+                    mybuys.addItemPresentOnPage("<?php echo $product->getId() ?>");
+                <?php endif; ?>
+            <?php endforeach; ?>
+            /* end related products */
+            /* upsell products */
+            <?php foreach ($upsell_products as $product) : ?>
+                <?php if($product->isVisibleInCatalog()) : ?>
+                    mybuys.addItemPresentOnPage("<?php echo $product->getId() ?>");
+                <?php endif; ?>
+            <?php endforeach; ?>
+            /* end upsell products */
+        </script>
+        <?php endif; ?>
+    <?php endif; ?>
+<?php endif; ?>

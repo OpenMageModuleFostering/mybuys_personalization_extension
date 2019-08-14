@@ -1,0 +1,16 @@
+<?php if (Mage::getStoreConfig('mybuys_websitecode/general/website_code') == 'enabled') : ?>
+
+    <?php $mb_collection = $this->getLoadedProductCollection(); ?>
+    <?php $mb_searchResult = Mage::helper('catalogsearch')->getEscapedQueryText(); ?>
+    <script type="text/javascript">
+        mybuys.setPageType("SEARCH_RESULTS");
+        mybuys.set("keywords", "<?php echo $mb_searchResult; ?>");
+    </script>
+
+    <script type="text/javascript">
+        <?php foreach ($mb_collection as $_product) : ?>
+        mybuys.addItemPresentOnPage("<?php echo $_product->getId(); ?>");
+        <?php endforeach; ?>
+    </script>
+
+<?php endif; ?>

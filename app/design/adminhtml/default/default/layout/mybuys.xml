@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * StoreFront Consulting MyBuys Magento Module
+ *
+ * @category	Mybuys
+ * @package    	Mybuys_Connector
+ * @author     	StoreFront Consulting, Inc.
+ * @website	 	http://www.storefrontconsulting.com
+ * @copyright   Copyright (C) 2009-2012 StoreFront Consulting, Inc. All Rights Reserved.
+ */
+-->
+<layout version="0.1.0">
+	<mybuys_adminhtml_export_index>
+		<reference name="content">
+			<block type="mybuys/adminhtml_export" name="export" />
+		</reference>
+	</mybuys_adminhtml_export_index>
+
+	<mybuys_adminhtml_job_index>
+		<reference name="content">
+			<block type="mybuys/adminhtml_job" name="export" />
+		</reference>
+	</mybuys_adminhtml_job_index>
+</layout>

@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/MyBuys_Personalization_Extension",
+    "type": "magento-module",
+    "license": "Commercial-Software-License",
+    "homepage": "",
+    "description": "MyBuys Website Code & Data Feed Integration",
+    "authors": [
+    {
+        "name": "Greg Croasdill",
+        "email": "gregc@human-element.com"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}

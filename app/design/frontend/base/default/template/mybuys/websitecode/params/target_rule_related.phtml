@@ -1,0 +1,13 @@
+<?php $version = explode(".",Mage::getVersion()); ?>
+<?php if ($version[1] > 7 ) : ?>       
+    <?php if (Mage::getStoreConfig('mybuys_websitecode/general/website_code') == 'enabled') : ?>
+        <script type="text/javascript">
+                    /* related products on page */
+            <?php foreach($this->getItemCollection() as $_item): ?>
+                <?php if($_item->isVisibleInCatalog()) : ?>
+                    mybuys.addItemPresentOnPage("<?php echo $_item->getId() ?>");
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </script>
+    <?php endif; ?>
+<?php endif; ?>
