@@ -1,16 +1,19 @@
 {
-    "name": "OpenMageModuleFostering/MyBuys_Personalization_Extension",
+    "name": "OpenMageModuleFostering\/MyBuys_Personalization_Extension",
     "type": "magento-module",
     "license": "GNU-General-Public-License-(GPL)",
     "homepage": "",
     "description": "MyBuys Website Code & Data Feed Integration",
     "authors": [
-    {
-        "name": "MyBuys Sandbox",
-        "email": "rbrant@mybuys.com"
-    }
-],
+        {
+            "name": "MyBuys Sandbox",
+            "email": "rbrant@mybuys.com"
+        }
+    ],
     "suggest": {
-        "magento-hackathon/magento-composer-installer": "*"
-    }
+        "magento-hackathon\/magento-composer-installer": "*"
+    },
+    "keywords": [
+        "openmage-module"
+    ]
 }
